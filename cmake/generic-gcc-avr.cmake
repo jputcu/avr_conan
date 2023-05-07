@@ -7,7 +7,7 @@ function(add_avr_executable EXECUTABLE_NAME)
     set(elf_file ${CMAKE_BINARY_DIR}/${EXECUTABLE_NAME}.elf)
     set(hex_file ${CMAKE_BINARY_DIR}/${EXECUTABLE_NAME}.hex)
 
-    add_executable(${EXECUTABLE_NAME} EXCLUDE_FROM_ALL ${ARGN})
+    add_executable(${EXECUTABLE_NAME} ${ARGN})
     set_target_properties(
             ${EXECUTABLE_NAME}
             PROPERTIES

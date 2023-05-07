@@ -1,18 +1,23 @@
 Description
 ===========
-AVR development using `conan-2.0.3`.
+AVR development using `conan-2.0.4`.
 
 ~~~~
 > cd toolchain
 > conan create .
+~~~~
+
+Install `conan/settings_user.yml` into `~/.conan2/`.
+
+~~~~
 > cd ../blink
-> conan install . -pr:h ../conan/profiles/avr_profile
+> conan install . -pr:h ../conan/profiles/arduino_uno
 ...
 > source build/Debug/generators/conanbuildenv-debug-avr.sh
 ...
 > cmake --preset conan-debug
 ...
-> cmake --build --preset conan-debug --verbose --target blink
+> cmake --build --preset conan-debug --verbose
 ...
 > file build/Debug/blink.elf
 build/Debug/blink.elf: ELF 32-bit LSB executable, Atmel AVR 8-bit, version 1 (SYSV), statically linked, with debug_info, not stripped

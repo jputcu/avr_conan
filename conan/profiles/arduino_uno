@@ -1,4 +1,4 @@
-{% set mcu = "atmega128" %}
+{% set mcu = "atmega328p" %}
 
 [settings]
 os=baremetal
@@ -10,14 +10,11 @@ compiler.version=7
 compiler.libcxx=libstdc++11
 compiler.cppstd=17
 
-[buildenv]
-FLASH_SIZE=0x20000
-
 [tool_requires]
 microchipavrgcc/3.7.0.1796
 
 [conf]
 tools.build:cflags=["-mmcu={{ mcu }}", "-Os", "-funsigned-char", "-Wall", "-Wextra", "-mrelax", "-ffunction-sections", "-fdata-sections", "-mcall-prologues"]
 tools.build:cxxflags=["-mmcu={{ mcu }}", "-Os", "-funsigned-char", "-Wall", "-Wextra", "-mrelax", "-ffunction-sections", "-fdata-sections", "-mcall-prologues", "-fno-rtti", "-fno-exceptions", "-fno-threadsafe-statics"]
-tools.build:defines=["F_CPU=14745600", "NDEBUG"]
+tools.build:defines=["F_CPU=16000000", "NDEBUG"]
 tools.build:exelinkflags=["-mmcu={{ mcu }}", "-Wl,--gc-sections", "-mrelax"]

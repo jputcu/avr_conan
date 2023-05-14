@@ -11,13 +11,26 @@ AVR development using `conan-2.0.4`.
 
 Install `conan/settings_user.yml` into `~/.conan2/`.
 
+Cross compile
+-------------
 ~~~~
 > cd blink
-
-a)
 > conan build . -pr:h ../conan/profiles/arduino_uno
+...
+> conan build . -pr:h ../conan/profiles/arduino_uno -s build_type=Debug
+...
+~~~~
 
-b)
+Advanced editors, like Clion, can use `cmake presets`, now we have:
+~~~~
+> cmake --list-presets
+Available configure presets:
+
+  "conan-atmega328p-minsizerel" - 'conan-atmega328p-minsizerel' config
+  "conan-atmega328p-debug"      - 'conan-atmega328p-debug' config
+~~~~
+
+~~~~
 > conan install . -pr:h ../conan/profiles/arduino_uno
 ...
 > source build/Debug/generators/conanbuildenv-debug-avr.sh

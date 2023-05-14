@@ -1,8 +1,10 @@
+import os
+
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 
-class blinkRecipe(ConanFile):
+class BlinkRecipe(ConanFile):
     name = "blink"
     version = "1.0"
     package_type = "application"
@@ -21,6 +23,8 @@ class blinkRecipe(ConanFile):
     exports_sources = "CMakeLists.txt", "src/*"
 
     def layout(self):
+        if self.settings.arch == "avr":
+            self.folders.build_folder_vars = ["settings.arch.mcu"]
         cmake_layout(self)
 
     def generate(self):

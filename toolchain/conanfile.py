@@ -8,7 +8,7 @@ from conan.tools.layout import basic_layout
 class MicrochipAvrGccConan(ConanFile):
     name = "microchipavrgcc"
     version = "3.7.0.1796"
-    settings = "os", "compiler", "build_type", "arch"
+    settings = "os", "arch"
     package_type = "application"
     no_copy_source = True
 

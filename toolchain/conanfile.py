@@ -23,13 +23,16 @@ class MicrochipAvrGccConan(ConanFile):
             get(self, base_url + "avr8-gnu-toolchain-osx-3.7.0.518-darwin.any.x86_64.tar.gz", strip_root=True)
 
     def layout(self):
-        basic_layout(self, src_folder=".")
+        basic_layout(self)
 
     def package(self):
         copy(self, "*", self.build_folder, self.package_folder)
 
     def package_info(self):
-        self.buildenv_info.append_path("PATH", os.path.join(self.package_folder, "bin"))
-        self.buildenv_info.define_path("CC", os.path.join(self.package_folder, "bin", "avr-gcc"))
-        self.buildenv_info.define_path("CXX", os.path.join(self.package_folder, "bin", "avr-g++"))
+        suffix = ".exe" if self.settings.os == "Windows" else ""
+        compiler_executables = {
+            "c": os.path.join(self.package_folder, "bin", "avr-gcc" + suffix),
+            "cpp": os.path.join(self.package_folder, "bin", "avr-g++" + suffix)
+        }
+        self.conf_info.update("tools.build:compiler_executables", compiler_executables)
 

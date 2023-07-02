@@ -14,7 +14,8 @@ class MicrochipAvrGccConan(ConanFile):
 
     def build(self):
         base_url = "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/"
-        if self.settings.os == "Linux":
+        if self.settings.os in ["Linux", "FreeBSD"]:
+            # for FreeBSD, install linux_base-c7 and enable linux support
             get(self, base_url + "avr8-gnu-toolchain-3.7.0.1796-linux.any.x86_64.tar.gz", strip_root=True)
         elif self.settings.os == "Windows":
             get(self, base_url + "avr8-gnu-toolchain-3.7.0.1796-win32.any.x86_64.zip", strip_root=True)

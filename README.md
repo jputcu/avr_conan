@@ -1,6 +1,6 @@
 Description
 ===========
-AVR development using `conan-2.0.4`.
+AVR development using `conan>=2.0.7`.
 
 ~~~~
 > cd toolchain

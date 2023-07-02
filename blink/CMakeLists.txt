@@ -8,6 +8,8 @@ else()
   add_executable(blink src/main.cpp)
 endif()
 
+target_compile_options(blink PRIVATE -Wall -Wextra)
+
 install(TARGETS blink DESTINATION "."
         RUNTIME DESTINATION bin
         ARCHIVE DESTINATION lib

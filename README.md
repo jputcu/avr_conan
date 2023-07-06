@@ -3,13 +3,21 @@ Description
 AVR development using `conan>=2.0.7`.
 
 ~~~~
-> cd toolchain
+> cd toolchain/microchip
 > conan create .
 ...
-> cd ..
+> cd ../..
 ~~~~
 
 Install `conan/settings_user.yml` into `~/.conan2/`.
+
+Alternative toolchain using Zak Kemble:
+~~~~
+> cd toolchain/zakkemble
+> conan create . --version 12.1.0
+...
+> cd ../..
+~~~~
 
 Cross compile
 -------------

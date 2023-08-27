@@ -2,6 +2,11 @@ Description
 ===========
 AVR development using `conan>=2.0.7`.
 
+Provide the toolchain
+---------------------
+
+### Microchip
+
 ~~~~
 > cd toolchain/microchip
 > conan create .
@@ -9,7 +14,7 @@ AVR development using `conan>=2.0.7`.
 > cd ../..
 ~~~~
 
-Install `conan/settings_user.yml` into `~/.conan2/`.
+### Zak Kemble
 
 Alternative toolchain using Zak Kemble:
 ~~~~
@@ -19,8 +24,13 @@ Alternative toolchain using Zak Kemble:
 > cd ../..
 ~~~~
 
-Cross compile
--------------
+Provide the conan AVR settings
+------------------------------
+
+Install `conan/settings_user.yml` into `~/.conan2/`.
+
+Compile the example project
+---------------------------
 ~~~~
 > cd blink
 > conan build . -pr:h ../conan/profiles/arduino_uno

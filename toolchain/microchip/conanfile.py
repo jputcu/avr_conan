@@ -2,12 +2,13 @@ import os
 import shutil
 
 from conan import ConanFile
-from conan.tools.files import get, copy, rm
+from conan.tools.files import get, copy
 from conan.tools.layout import basic_layout
 
 class MicrochipAvrGccConan(ConanFile):
     name = "microchipavrgcc"
-    version = "3.7.0.1796"
+    version = "3.7.0"
+    homepage = "https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers"
     settings = "os", "arch"
     package_type = "application"
     no_copy_source = True

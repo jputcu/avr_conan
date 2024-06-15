@@ -1,4 +1,9 @@
 sources:
+  "14.1.0":
+    windows:
+      url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v14.1.0-1/avr-gcc-14.1.0-x64-windows.zip"
+    linux:
+      url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v14.1.0-1/avr-gcc-14.1.0-x64-linux.tar.bz2"
   "13.2.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v13.2.0-1/avr-gcc-13.2.0-x64-windows.zip"

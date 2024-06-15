@@ -19,7 +19,7 @@ Provide the toolchain
 Alternative toolchain using Zak Kemble:
 ~~~~
 > cd toolchain/zakkemble
-> conan create . --version 13.2.0
+> conan create . --version 14.1.0
 ...
 > cd ../..
 ~~~~

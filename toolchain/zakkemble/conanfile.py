@@ -22,9 +22,9 @@ class ZakKembleAvrGccConan(ConanFile):
 
     def package_info(self):
         suffix = ".exe" if self.settings.os == "Windows" else ""
-        compiler_executables = {
-            "c": os.path.join(self.package_folder, "bin", "avr-gcc" + suffix),
-            "cpp": os.path.join(self.package_folder, "bin", "avr-g++" + suffix)
-        }
-        self.conf_info.update("tools.build:compiler_executables", compiler_executables)
+        toolchain = os.path.join(self.package_folder, "bin", "avr")
+        self.conf_info.update("tools.build:compiler_executables", {
+            "c": f"{toolchain}-gcc" + suffix,
+            "cpp": f"{toolchain}-g++" + suffix
+        })
 

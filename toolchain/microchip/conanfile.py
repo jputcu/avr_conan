@@ -22,6 +22,8 @@ class MicrochipAvrGccConan(ConanFile):
             get(self, base_url + "avr8-gnu-toolchain-3.7.0.1796-win32.any.x86_64.zip", strip_root=True)
         elif self.settings.os == "Macos":
             get(self, base_url + "avr8-gnu-toolchain-osx-3.7.0.518-darwin.any.x86_64.tar.gz", strip_root=True)
+        # Add a stdc++ library for AVR
+        get(self, "https://github.com/modm-io/avr-libstdcpp/archive/123a0d7.zip", destination='avr-libstdcpp', strip_root=True)
 
     def layout(self):
         basic_layout(self)

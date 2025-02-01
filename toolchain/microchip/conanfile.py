@@ -34,8 +34,8 @@ class MicrochipAvrGccConan(ConanFile):
     def package_info(self):
         suffix = ".exe" if self.settings.os == "Windows" else ""
         toolchain = os.path.join(self.package_folder, "bin", "avr")
-        self.conf_info.update("tools.build:compiler_executables", {
-            "c": f"{toolchain}-gcc" + suffix,
-            "cpp": f"{toolchain}-g++" + suffix
+        self.conf_info.define("tools.build:compiler_executables", {
+            "c": f"{toolchain}-gcc{suffix}",
+            "cpp": f"{toolchain}-g++{suffix}"
         })
-
+        self.conf_info.append("tools.build:cxxflags", "-I" + os.path.join(self.package_folder, "avr-libstdcpp", "include"))

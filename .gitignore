@@ -1,1 +1,3 @@
 **/build*/
+toolchain/freestanding/src/
+toolchain/freestanding/install/

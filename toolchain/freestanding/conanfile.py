@@ -22,7 +22,7 @@ class AvrGccConan(ConanFile):
             self.run("bash ./bootstrap")
 
     def _build_binutils(self):
-        config_file = os.path.join(self.source_folder, self.binutils_src, "configure")
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.binutils_src, "configure"), "build/binutils")
         mkdir(self, "build/binutils")
         with chdir(self, "build/binutils"):
             self.run(f"bash {config_file} --prefix={self.prefix} --target=avr --disable-nls --disable-doc")
@@ -31,7 +31,7 @@ class AvrGccConan(ConanFile):
         rmdir(self, "build/binutils")
 
     def _build_gcc(self):
-        config_file = os.path.join(self.source_folder, self.gcc_src, "configure")
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "build/gcc")
         mkdir(self, "build/gcc")
         with chdir(self, "build/gcc"):
             self.run(f"bash {config_file} --prefix={self.prefix} "
@@ -41,7 +41,7 @@ class AvrGccConan(ConanFile):
             self.run("make -s install")
 
     def _build_avrlibc(self):
-        config_file = os.path.join(self.source_folder, self.avrlibc_src, "configure")
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.avrlibc_src, "configure"), "build/avr-libc")
         mkdir(self, "build/avr-libc")
         with chdir(self, "build/avr-libc"):
             self.run(f"bash {config_file} --prefix={self.prefix} "
@@ -50,7 +50,7 @@ class AvrGccConan(ConanFile):
             self.run("make -s install")
 
     def _build_freestanding(self):
-        config_file = os.path.join(self.source_folder, self.gcc_src, "configure")
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "build/gcc")
         with chdir(self, "build/gcc"):
             self.run(f"bash {config_file} --prefix={self.prefix} "
                 + "--target=avr --enable-languages=c,c++ --disable-nls --disable-libssp --disable-libada "

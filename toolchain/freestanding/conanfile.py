@@ -1,5 +1,5 @@
 import os
-from conan.tools.files import get, copy, mkdir, rmdir, chdir
+from conan.tools.files import get, copy, mkdir, rmdir, chdir, rm
 from conan.tools.build import build_jobs
 from conan import ConanFile
 
@@ -8,9 +8,16 @@ class AvrGccConan(ConanFile):
     version = "14.2.0"
     settings = "os", "arch"
     no_copy_source = True
+    package_type = "application"
     gcc_src = os.path.join("src","gcc")
     binutils_src = os.path.join("src","binutils")
     avrlibc_src = os.path.join("src","avr-libc")
+    config_fl = "--disable-doc"
+    logfile = "avr-gcc_build.log"
+
+    def _run(self, cmd):
+        with open(os.path.join(self.build_folder, self.logfile), "a") as log:
+            self.run(cmd, stdout=log, stderr=log)
 
     def source(self):
         get(self, "https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz", destination=self.gcc_src, strip_root=True)
@@ -22,48 +29,53 @@ class AvrGccConan(ConanFile):
             self.run("bash ./bootstrap")
 
     def _build_binutils(self):
+        self.output.info("Building binutils")
         config_file = os.path.relpath(os.path.join(self.source_folder, self.binutils_src, "configure"), "build/binutils")
         mkdir(self, "build/binutils")
         with chdir(self, "build/binutils"):
-            self.run(f"bash {config_file} --prefix={self.prefix} --target=avr --disable-nls --disable-doc")
-            self.run(f"make -s -j{build_jobs(self)}")
-            self.run("make -s install")
+            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
+                + "--target=avr --disable-nls")
+            self._run(f"make -j{build_jobs(self)}")
+            self._run("make install")
         rmdir(self, "build/binutils")
 
     def _build_gcc(self):
+        self.output.info("Building gcc")
         config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "build/gcc")
         mkdir(self, "build/gcc")
         with chdir(self, "build/gcc"):
-            self.run(f"bash {config_file} --prefix={self.prefix} "
+            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
                 + "--target=avr --enable-languages=c,c++ --disable-nls --disable-libssp "
-                + "--disable-libada --disable-libgomp --disable-doc --with-avrlibc=yes --with-dwarf2 --disable-shared")
-            self.run(f"make -s -j{build_jobs(self)}")
-            self.run("make -s install")
+                + "--disable-libada --disable-libgomp --with-avrlibc=yes --with-dwarf2 --disable-shared")
+            self._run(f"make -j{build_jobs(self)}")
+            self._run("make install")
 
     def _build_avrlibc(self):
+        self.output.info("Building avr-libc")
         config_file = os.path.relpath(os.path.join(self.source_folder, self.avrlibc_src, "configure"), "build/avr-libc")
         mkdir(self, "build/avr-libc")
         with chdir(self, "build/avr-libc"):
-            self.run(f"bash {config_file} --prefix={self.prefix} "
-                + "--host=avr --build=`../../{self.avrlibc_src}/config.guess` --disable-doc")
-            self.run(f"make -s -j{build_jobs(self)}")
-            self.run("make -s install")
+            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
+                + "--host=avr --build=\`../../{self.avrlibc_src}/config.guess\`")
+            self._run(f"make -j{build_jobs(self)}")
+            self._run("make install")
 
     def _build_freestanding(self):
+        self.output.info("Building gcc-freestanding")
         config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "build/gcc")
         with chdir(self, "build/gcc"):
-            self.run(f"bash {config_file} --prefix={self.prefix} "
+            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
                 + "--target=avr --enable-languages=c,c++ --disable-nls --disable-libssp --disable-libada "
-                + "--disable-libgomp --disable-doc --with-avrlibc=yes --with-newlib --with-dwarf2 --disable-__cxa_atexit "
+                + "--disable-libgomp --with-avrlibc=yes --with-newlib --with-dwarf2 --disable-__cxa_atexit "
                 + "--disable-threads --disable-shared --disable-sjlj-exceptions --enable-libstdcxx --disable-hosted-libstdcxx "
                 + "--disable-bootstrap")
-            self.run(f"make -s -j{build_jobs(self)}")
-            self.run("make -s install")
+            self._run(f"make -j{build_jobs(self)}")
+            self._run("make install")
 
     def build(self):
+        rm(self, self.logfile, self.build_folder)
         self.prefix=os.path.join(self.build_folder, "install")
         mkdir(self, "install")
-        mkdir(self, "build")
 
         self._build_binutils()
         self._build_gcc()

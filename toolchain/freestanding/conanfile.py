@@ -1,6 +1,7 @@
 import os
 from conan.tools.files import get, copy, mkdir, rmdir, chdir, rm
 from conan.tools.build import build_jobs
+from conan.tools.layout import basic_layout
 from conan import ConanFile
 
 class AvrGccConan(ConanFile):
@@ -28,22 +29,25 @@ class AvrGccConan(ConanFile):
         with chdir(self, self.avrlibc_src):
             self.run("bash ./bootstrap")
 
+    def layout(self):
+        basic_layout(self)
+
     def _build_binutils(self):
         self.output.info("Building binutils")
-        config_file = os.path.relpath(os.path.join(self.source_folder, self.binutils_src, "configure"), "build/binutils")
-        mkdir(self, "build/binutils")
-        with chdir(self, "build/binutils"):
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.binutils_src, "configure"), "binutils")
+        mkdir(self, "binutils")
+        with chdir(self, "binutils"):
             self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} --target=avr --disable-nls "
                     + "--disable-sim")
             self._run(f"make -j{build_jobs(self)}")
             self._run(f"make -j{build_jobs(self)} install-strip")
-        rmdir(self, "build/binutils")
+        rmdir(self, "binutils")
 
     def _build_gcc(self):
         self.output.info("Building gcc 1st stage")
-        config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "build/gcc")
-        mkdir(self, "build/gcc")
-        with chdir(self, "build/gcc"):
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "gcc")
+        mkdir(self, "gcc")
+        with chdir(self, "gcc"):
             self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
                 + "--target=avr --enable-languages=c,c++ --disable-nls --disable-libssp "
                 + "--disable-libada --disable-libgomp --with-avrlibc=yes --with-dwarf2 --disable-shared")
@@ -52,9 +56,9 @@ class AvrGccConan(ConanFile):
 
     def _build_avrlibc(self):
         self.output.info("Building avr-libc")
-        config_file = os.path.relpath(os.path.join(self.source_folder, self.avrlibc_src, "configure"), "build/avr-libc")
-        mkdir(self, "build/avr-libc")
-        with chdir(self, "build/avr-libc"):
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.avrlibc_src, "configure"), "avr-libc")
+        mkdir(self, "avr-libc")
+        with chdir(self, "avr-libc"):
             self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
                 + "--host=avr --build=\`../../{self.avrlibc_src}/config.guess\`")
             self._run(f"make -j{build_jobs(self)}")
@@ -62,8 +66,8 @@ class AvrGccConan(ConanFile):
 
     def _build_freestanding(self):
         self.output.info("Building gcc final stage")
-        config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "build/gcc")
-        with chdir(self, "build/gcc"):
+        config_file = os.path.relpath(os.path.join(self.source_folder, self.gcc_src, "configure"), "gcc")
+        with chdir(self, "gcc"):
             self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
                 + "--target=avr --enable-languages=c,c++ --disable-nls --disable-libssp --disable-libada "
                 + "--disable-libgomp --with-avrlibc=yes --with-newlib --with-dwarf2 --disable-__cxa_atexit "

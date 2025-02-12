@@ -1,3 +1,5 @@
 **/build*/
-toolchain/freestanding/src/
-toolchain/freestanding/install/
+toolchain/freestanding/gcc/
+toolchain/freestanding/binutils/
+toolchain/freestanding/avr-libc/
+toolchain/freestanding/build/

@@ -1,4 +1,5 @@
 import os
+from io import StringIO
 from conan.tools.files import get, copy, mkdir, chdir
 from conan.tools.layout import basic_layout
 from conan.tools.gnu import AutotoolsToolchain, Autotools
@@ -29,7 +30,7 @@ class AvrGccConan(ConanFile):
             self.run("bash ./bootstrap")
 
     def generate(self):
-        at = AutotoolsToolchain(self, prefix=os.path.join(self.build_folder, "install"))
+        at = AutotoolsToolchain(self)
         at.configure_args.append("--disable-doc")
         at.configure_args.append("--disable-nls")
         env = at.environment()
@@ -42,9 +43,9 @@ class AvrGccConan(ConanFile):
         with chdir(self, "binutils"):
             autotools = Autotools(self)
             autotools.configure(build_script_folder=os.path.join(self.source_folder, "binutils"),
-                                args=["--target=avr", "--disable-sim"])
+                                args=["--target=avr", "--disable-sim", "--disable-nls"])
             autotools.make()
-            autotools.install()
+            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
 
     def _build_gcc(self):
         self.output.info("Building gcc 1st stage")
@@ -54,20 +55,21 @@ class AvrGccConan(ConanFile):
             autotools.configure(build_script_folder=os.path.join(self.source_folder, "gcc"),
                                 args=["--target=avr", "--enable-languages=c,c++", "--disable-libssp",
                                       "--disable-libada", "--disable-libgomp", "--with-avrlibc=yes",
-                                      "--with-dwarf2", "--disable-shared"])
+                                      "--with-dwarf2", "--disable-shared", "--disable-nls"])
             autotools.make()
-            autotools.install()
+            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
 
     def _build_avrlibc(self):
         self.output.info("Building avr-libc")
-        rel_src_path = os.path.relpath(os.path.join(self.source_folder, "avr-libc"), "avr-libc")
+        build_str = StringIO()
+        self.run(os.path.join(self.source_folder, "avr-libc", "config.guess"), build_str)
         mkdir(self, "avr-libc")
         with chdir(self, "avr-libc"):
             autotools = Autotools(self)
             autotools.configure(build_script_folder=os.path.join(self.source_folder, "avr-libc"),
-                                args=["--host=avr", f"--build=\`{rel_src_path}/config.guess\`"])
+                                args=["--host=avr", f"--build={build_str.getvalue()}"])
             autotools.make()
-            autotools.install()
+            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
 
     def _build_freestanding(self):
         self.output.info("Building gcc final stage")
@@ -78,9 +80,10 @@ class AvrGccConan(ConanFile):
                                       "--disable-libada", "--disable-libgomp", "--with-avrlibc=yes",
                                       "--with-newlib", "--with-dwarf2", "--disable-__cxa_atexit",
                                       "--disable-threads", "--disable-shared", "--disable-sjlj-exceptions",
-                                      "--enable-libstdcxx", "--disable-hosted-libstdcxx", "--disable-bootstrap"])
+                                      "--enable-libstdcxx", "--disable-hosted-libstdcxx", "--disable-bootstrap",
+                                      "--disable-nls"])
             autotools.make()
-            autotools.install()
+            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
 
     def build(self):
         self.prefix=os.path.join(self.build_folder, "install")

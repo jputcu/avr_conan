@@ -85,6 +85,7 @@ class AvrGccConan(ConanFile):
                                       "--enable-libstdcxx", "--disable-hosted-libstdcxx", "--disable-bootstrap",
                                       "--disable-nls"])
             at.make()
+            self.run("make install")
 
     def build(self):
         self._build_binutils()
@@ -93,13 +94,7 @@ class AvrGccConan(ConanFile):
         self._build_freestanding()
 
     def package(self):
-        with chdir(self, "binutils"):
-            Autotools(self).install()
-        with chdir(self, "avr-libc"):
-            Autotools(self).install()
-        with chdir(self, "gcc"):
-            #Autotools(self).install()
-            self.run("make install")
+        copy(self, pattern="*", src=os.path.join(self.build_folder, "install"), dst=self.package_folder)
 
     def package_info(self):
         suffix = ".exe" if self.settings.os == "Windows" else ""

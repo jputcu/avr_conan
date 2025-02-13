@@ -32,7 +32,6 @@ class AvrGccConan(ConanFile):
     def generate(self):
         at = AutotoolsToolchain(self)
         at.configure_args.append("--disable-doc")
-        at.configure_args.append("--disable-nls")
         env = at.environment()
         env.prepend_path("PATH", os.path.join(self.build_folder, "install", "bin"))
         at.generate(env)
@@ -41,23 +40,23 @@ class AvrGccConan(ConanFile):
         self.output.info("Building binutils")
         mkdir(self, "binutils")
         with chdir(self, "binutils"):
-            autotools = Autotools(self)
-            autotools.configure(build_script_folder=os.path.join(self.source_folder, "binutils"),
+            at = Autotools(self)
+            at.configure(build_script_folder=os.path.join(self.source_folder, "binutils"),
                                 args=["--target=avr", "--disable-sim", "--disable-nls"])
-            autotools.make()
-            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
+            at.make()
+            at.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
 
     def _build_gcc(self):
         self.output.info("Building gcc 1st stage")
         mkdir(self, "gcc")
         with chdir(self, "gcc"):
-            autotools = Autotools(self)
-            autotools.configure(build_script_folder=os.path.join(self.source_folder, "gcc"),
+            at = Autotools(self)
+            at.configure(build_script_folder=os.path.join(self.source_folder, "gcc"),
                                 args=["--target=avr", "--enable-languages=c,c++", "--disable-libssp",
                                       "--disable-libada", "--disable-libgomp", "--with-avrlibc=yes",
                                       "--with-dwarf2", "--disable-shared", "--disable-nls"])
-            autotools.make()
-            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
+            at.make()
+            at.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
 
     def _build_avrlibc(self):
         self.output.info("Building avr-libc")
@@ -65,36 +64,38 @@ class AvrGccConan(ConanFile):
         self.run(os.path.join(self.source_folder, "avr-libc", "config.guess"), build_str)
         mkdir(self, "avr-libc")
         with chdir(self, "avr-libc"):
-            autotools = Autotools(self)
-            autotools.configure(build_script_folder=os.path.join(self.source_folder, "avr-libc"),
+            at = Autotools(self)
+            at.configure(build_script_folder=os.path.join(self.source_folder, "avr-libc"),
                                 args=["--host=avr", f"--build={build_str.getvalue()}"])
-            autotools.make()
-            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
+            at.make()
+            at.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
 
     def _build_freestanding(self):
         self.output.info("Building gcc final stage")
         with chdir(self, "gcc"):
-            autotools = Autotools(self)
-            autotools.configure(build_script_folder=os.path.join(self.source_folder, "gcc"),
+            at = Autotools(self)
+            at.configure(build_script_folder=os.path.join(self.source_folder, "gcc"),
                                 args=["--target=avr", "--enable-languages=c,c++", "--disable-libssp",
                                       "--disable-libada", "--disable-libgomp", "--with-avrlibc=yes",
                                       "--with-newlib", "--with-dwarf2", "--disable-__cxa_atexit",
                                       "--disable-threads", "--disable-shared", "--disable-sjlj-exceptions",
                                       "--enable-libstdcxx", "--disable-hosted-libstdcxx", "--disable-bootstrap",
                                       "--disable-nls"])
-            autotools.make()
-            autotools.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
+            at.make()
 
     def build(self):
-        self.prefix=os.path.join(self.build_folder, "install")
-
         self._build_binutils()
         self._build_gcc()
         self._build_avrlibc()
         self._build_freestanding()
 
     def package(self):
-        copy(self, "*", os.path.join(self.build_folder, "install"), self.package_folder)
+        with chdir(self, "binutils"):
+            Autotools(self).install()
+        with chdir(self, "avr-libc"):
+            Autotools(self).install()
+        with chdir(self, "gcc"):
+            Autotools(self).install()
 
     def package_info(self):
         suffix = ".exe" if self.settings.os == "Windows" else ""

@@ -1,7 +1,7 @@
 import os
-from conan.tools.files import get, copy, mkdir, rmdir, chdir, rm
-from conan.tools.build import build_jobs
+from conan.tools.files import get, copy, mkdir, chdir
 from conan.tools.layout import basic_layout
+from conan.tools.gnu import AutotoolsToolchain, Autotools
 from conan import ConanFile
 
 class AvrGccConan(ConanFile):
@@ -10,15 +10,9 @@ class AvrGccConan(ConanFile):
     settings = "os", "arch"
     no_copy_source = True
     package_type = "application"
-    config_fl = "--disable-doc"
-    logfile = "avr-gcc_build.log"
 
     def layout(self):
         basic_layout(self)
-
-    def _run(self, cmd):
-        with open(os.path.join(self.build_folder, self.logfile), "a") as log:
-            self.run(cmd, stdout=log, stderr=log)
 
     def source(self):
         get(self, "https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz", destination="gcc", strip_root=True)
@@ -34,53 +28,61 @@ class AvrGccConan(ConanFile):
         with chdir(self, "avr-libc"):
             self.run("bash ./bootstrap")
 
+    def generate(self):
+        at = AutotoolsToolchain(self, prefix=os.path.join(self.build_folder, "install"))
+        at.configure_args.append("--disable-doc")
+        at.configure_args.append("--disable-nls")
+        env = at.environment()
+        env.prepend_path("PATH", os.path.join(self.build_folder, "install", "bin"))
+        at.generate(env)
+
     def _build_binutils(self):
         self.output.info("Building binutils")
-        config_file = os.path.relpath(os.path.join(self.source_folder, "binutils", "configure"), "binutils")
         mkdir(self, "binutils")
         with chdir(self, "binutils"):
-            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} --target=avr --disable-nls "
-                    + "--disable-sim")
-            self._run(f"make -j{build_jobs(self)}")
-            self._run(f"make -j{build_jobs(self)} install-strip")
-        #rmdir(self, "binutils")
+            autotools = Autotools(self)
+            autotools.configure(build_script_folder=os.path.join(self.source_folder, "binutils"),
+                                args=["--target=avr", "--disable-sim"])
+            autotools.make()
+            autotools.install()
 
     def _build_gcc(self):
         self.output.info("Building gcc 1st stage")
-        config_file = os.path.relpath(os.path.join(self.source_folder, "gcc", "configure"), "gcc")
         mkdir(self, "gcc")
         with chdir(self, "gcc"):
-            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
-                + "--target=avr --enable-languages=c,c++ --disable-nls --disable-libssp "
-                + "--disable-libada --disable-libgomp --with-avrlibc=yes --with-dwarf2 --disable-shared")
-            self._run(f"make -j{build_jobs(self)}")
-            self._run(f"make -j{build_jobs(self)} install-strip")
+            autotools = Autotools(self)
+            autotools.configure(build_script_folder=os.path.join(self.source_folder, "gcc"),
+                                args=["--target=avr", "--enable-languages=c,c++", "--disable-libssp",
+                                      "--disable-libada", "--disable-libgomp", "--with-avrlibc=yes",
+                                      "--with-dwarf2", "--disable-shared"])
+            autotools.make()
+            autotools.install()
 
     def _build_avrlibc(self):
         self.output.info("Building avr-libc")
         rel_src_path = os.path.relpath(os.path.join(self.source_folder, "avr-libc"), "avr-libc")
-        config_file = os.path.join(rel_src_path, "configure")
         mkdir(self, "avr-libc")
         with chdir(self, "avr-libc"):
-            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
-                + "--host=avr --build=\`{rel_src_path}/config.guess\`")
-            self._run(f"make -j{build_jobs(self)}")
-            self._run(f"make -j{build_jobs(self)} install")
+            autotools = Autotools(self)
+            autotools.configure(build_script_folder=os.path.join(self.source_folder, "avr-libc"),
+                                args=["--host=avr", f"--build=\`{rel_src_path}/config.guess\`"])
+            autotools.make()
+            autotools.install()
 
     def _build_freestanding(self):
         self.output.info("Building gcc final stage")
-        config_file = os.path.relpath(os.path.join(self.source_folder, "gcc", "configure"), "gcc")
         with chdir(self, "gcc"):
-            self._run(f"bash {config_file} --prefix={self.prefix} {self.config_fl} "
-                + "--target=avr --enable-languages=c,c++ --disable-nls --disable-libssp --disable-libada "
-                + "--disable-libgomp --with-avrlibc=yes --with-newlib --with-dwarf2 --disable-__cxa_atexit "
-                + "--disable-threads --disable-shared --disable-sjlj-exceptions --enable-libstdcxx --disable-hosted-libstdcxx "
-                + "--disable-bootstrap")
-            self._run(f"make -j{build_jobs(self)}")
-            self._run(f"make -j{build_jobs(self)} install-strip")
+            autotools = Autotools(self)
+            autotools.configure(build_script_folder=os.path.join(self.source_folder, "gcc"),
+                                args=["--target=avr", "--enable-languages=c,c++", "--disable-libssp",
+                                      "--disable-libada", "--disable-libgomp", "--with-avrlibc=yes",
+                                      "--with-newlib", "--with-dwarf2", "--disable-__cxa_atexit",
+                                      "--disable-threads", "--disable-shared", "--disable-sjlj-exceptions",
+                                      "--enable-libstdcxx", "--disable-hosted-libstdcxx", "--disable-bootstrap"])
+            autotools.make()
+            autotools.install()
 
     def build(self):
-        rm(self, self.logfile, self.build_folder)
         self.prefix=os.path.join(self.build_folder, "install")
 
         self._build_binutils()

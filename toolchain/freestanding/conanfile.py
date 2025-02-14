@@ -44,8 +44,7 @@ class AvrGccConan(ConanFile):
             at.configure(build_script_folder=os.path.join(self.source_folder, "binutils"),
                                 args=["--target=avr", "--disable-sim", "--disable-nls"])
             at.make()
-            #at.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
-            self.run("make install")
+            at.make(target="install")
 
     def _build_gcc(self):
         self.output.info("Building gcc 1st stage")
@@ -57,8 +56,7 @@ class AvrGccConan(ConanFile):
                                       "--disable-libada", "--disable-libgomp", "--with-avrlibc=yes",
                                       "--with-dwarf2", "--disable-shared", "--disable-nls"])
             at.make()
-            #at.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
-            self.run("make install")
+            at.make(target="install")
 
     def _build_avrlibc(self):
         self.output.info("Building avr-libc")
@@ -70,8 +68,7 @@ class AvrGccConan(ConanFile):
             at.configure(build_script_folder=os.path.join(self.source_folder, "avr-libc"),
                                 args=["--host=avr", f"--build={build_str.getvalue()}"])
             at.make()
-            #at.install(args=[f"DESTDIR={os.path.join(self.build_folder, 'install')}"])
-            self.run("make install")
+            at.make(target="install")
 
     def _build_freestanding(self):
         self.output.info("Building gcc final stage")
@@ -85,7 +82,7 @@ class AvrGccConan(ConanFile):
                                       "--enable-libstdcxx", "--disable-hosted-libstdcxx", "--disable-bootstrap",
                                       "--disable-nls"])
             at.make()
-            self.run("make install")
+            at.make(target="install")
 
     def build(self):
         self._build_binutils()

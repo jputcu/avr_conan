@@ -62,11 +62,13 @@ class AvrGccConan(ConanFile):
         self.output.info("Building avr-libc")
         build_str = StringIO()
         self.run(os.path.join(self.source_folder, "avr-libc", "config.guess"), build_str)
+        host = build_str.getvalue().strip()
+        self.output.info(f'avr-libc host={host}')
         mkdir(self, "avr-libc")
         with chdir(self, "avr-libc"):
             at = Autotools(self)
             at.configure(build_script_folder=os.path.join(self.source_folder, "avr-libc"),
-                                args=["--host=avr", f"--build={build_str.getvalue()}"])
+                                args=["--host=avr", f"--build={host}"])
             at.make()
             at.make(target="install")
 

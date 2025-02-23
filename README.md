@@ -85,6 +85,7 @@ Other compiler
 * https://github.com/modm-io/avr-gcc
 * https://blog.zakkemble.net/avr-gcc-builds/
 * Build AVR toolchain from source
+* crosstool-ng, more specifically: https://github.com/crosstool-ng/crosstool-ng/issues/2234
 
 Offer HALs
 ----------

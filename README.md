@@ -1,6 +1,6 @@
 Description
 ===========
-AVR development using `conan>=2.0.7`.
+Use conan to provide a C++ toolchain, including standard C++ library.
 
 Provide the toolchain
 ---------------------
@@ -20,6 +20,15 @@ Alternative toolchain using Zak Kemble:
 ~~~~
 > cd toolchain/zakkemble
 > conan create . --version 14.1.0
+...
+> cd ../..
+~~~~
+
+### Compile GNU C++ cross compiler from source
+
+~~~~
+> cd toolchain/freestanding
+> conan create .
 ...
 > cd ../..
 ~~~~

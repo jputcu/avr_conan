@@ -13,8 +13,6 @@ class ZakKembleAvrGccConan(ConanFile):
 
     def build(self):
         get(self, self.conan_data["sources"][self.version][str(self.settings.os).lower()]['url'], strip_root=True)
-        # Add a stdc++ library for AVR
-        get(self, "https://github.com/modm-io/avr-libstdcpp/archive/123a0d7.zip", destination='avr-libstdcpp', strip_root=True)
 
     def layout(self):
         basic_layout(self)
@@ -29,5 +27,4 @@ class ZakKembleAvrGccConan(ConanFile):
             "c": f"{toolchain}-gcc{suffix}",
             "cpp": f"{toolchain}-g++{suffix}"
         })
-        self.conf_info.append("tools.build:cxxflags", "-I" + os.path.join(self.package_folder, "avr-libstdcpp", "include"))
 

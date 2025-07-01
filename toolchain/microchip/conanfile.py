@@ -23,10 +23,6 @@ class MicrochipAvrGccConan(ConanFile):
                 sha256="4aba6af3334ddf10718a53a1a09c22ddebdd7741fdbad982104b14a1bb11553f", strip_root=True)
         elif self.settings.os == "Macos":
             get(self, base_url + "avr8-gnu-toolchain-osx-3.7.0.518-darwin.any.x86_64.tar.gz", strip_root=True)
-        # Add a stdc++ library for AVR
-        get(self, "https://github.com/modm-io/avr-libstdcpp/archive/123a0d7.zip",
-            sha256="03f2ba6fe6d922144ff0a154fa4c774ef0992de12b97f46235843c12c74d4154",
-            destination='avr-libstdcpp', strip_root=True)
 
     def layout(self):
         basic_layout(self)
@@ -41,4 +37,3 @@ class MicrochipAvrGccConan(ConanFile):
             "c": f"{toolchain}-gcc{suffix}",
             "cpp": f"{toolchain}-g++{suffix}"
         })
-        self.conf_info.append("tools.build:cxxflags", "-I" + os.path.join(self.package_folder, "avr-libstdcpp", "include"))

@@ -24,6 +24,15 @@ Alternative toolchain using Zak Kemble:
 > cd ../..
 ~~~~
 
+### Optional C++ lib
+
+~~~~
+> cd toolchain/avr-libstdcpp
+> conan create .
+...
+> cd ../..
+~~~~
+
 ### Compile GNU C++ cross compiler from source
 
 ~~~~

@@ -12,7 +12,7 @@ compiler.cppstd=17
 
 [tool_requires]
 microchipavrgcc/3.7.0
-avr-libstdcpp/1.0.0
+avr-libstdcpp/1.0.1
 
 [conf]
 tools.build:cflags+=["-mmcu={{ mcu }}", "-funsigned-char", "-mrelax", "-ffunction-sections", "-fdata-sections", "-mcall-prologues"]

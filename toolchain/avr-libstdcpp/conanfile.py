@@ -6,15 +6,15 @@ from conan.tools.files import get, copy
 
 class ZakKembleAvrGccConan(ConanFile):
     name = "avr-libstdcpp"
-    version = "1.0.0"
+    version = "1.0.1"
     package_type = "header-library"
     exports_sources = "include/*"
     no_copy_source = True
 
     def build(self):
         # Add a stdc++ library for AVR
-        get(self, "https://github.com/modm-io/avr-libstdcpp/archive/123a0d7.zip",
-            sha256="03f2ba6fe6d922144ff0a154fa4c774ef0992de12b97f46235843c12c74d4154",
+        get(self, "https://github.com/modm-io/avr-libstdcpp/archive/5354296040a2289c911062daa82336762231e897.zip",
+            sha256="5c8cc46ea11856c53134ba1f8fb7e710df501cb9b2aeca75ed304762f2c6eb81",
             strip_root=True)
 
     def package(self):

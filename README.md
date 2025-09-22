@@ -2,44 +2,36 @@ Description
 ===========
 Use conan to provide a C++ toolchain, including standard C++ library.
 
-Provide the toolchain
----------------------
+Install toolchain and C++ standard library
+------------------------------------------
 
-### Microchip
-
-~~~~
-> cd toolchain/microchip
-> conan create .
-...
-> cd ../..
-~~~~
-
-### Zak Kemble
-
-Alternative toolchain using Zak Kemble:
-~~~~
-> cd toolchain/zakkemble
-> conan create . --version 14.1.0
-...
-> cd ../..
-~~~~
-
-### Optional C++ lib
+This repository is origanized to allow it to be used as a local conan index.
 
 ~~~~
-> cd toolchain/avr-libstdcpp
-> conan create .
-...
-> cd ../..
+$ git clone https://github.com/jputcu/avr_conan.git
+$ conan remote add avr_center ./avr_conan
+$ conan search "*" -r avr_center
+Found 4 pkg/version recipes matching * in avr_center
+avr_center
+  avr-libstdcpp
+    avr-libstdcpp/1.0.1
+  microchipavrgcc
+    microchipavrgcc/3.7.0
+  zakkembleavrgcc
+    zakkembleavrgcc/13.2.0
+    zakkembleavrgcc/15.2.0
 ~~~~
+
+The correct packages will be installed as dependency by the profile.
+
 
 ### Compile GNU C++ cross compiler from source
 
 ~~~~
-> cd toolchain/freestanding
-> conan create .
+$ cd toolchain/freestanding
+$ conan create .
 ...
-> cd ../..
+$ cd ../..
 ~~~~
 
 Provide the conan AVR settings
@@ -50,16 +42,16 @@ Install `conan/settings_user.yml` into `~/.conan2/`.
 Compile the example project
 ---------------------------
 ~~~~
-> cd blink
-> conan build . -pr:h ../conan/profiles/arduino_uno
+$ cd blink
+$ conan build . -pr:h ../conan/profiles/arduino_uno --build missing
 ...
-> conan build . -pr:h ../conan/profiles/arduino_uno -s build_type=Debug
+$ conan build . -pr:h ../conan/profiles/arduino_uno -s build_type=Debug --build missing
 ...
 ~~~~
 
 Advanced editors, like Clion, can use `cmake presets`, now we have:
 ~~~~
-> cmake --list-presets
+$ cmake --list-presets
 Available configure presets:
 
   "conan-atmega328p-minsizerel" - 'conan-atmega328p-minsizerel' config
@@ -67,20 +59,20 @@ Available configure presets:
 ~~~~
 
 ~~~~
-> conan install . -pr:h ../conan/profiles/arduino_uno
+$ conan install . -pr:h ../conan/profiles/arduino_uno --build missing
 ...
-> source build/Debug/generators/conanbuildenv-debug-avr.sh
+$ source build/Debug/generators/conanbuildenv-debug-avr.sh
 ...
-> cmake --preset conan-debug
+$ cmake --preset conan-debug
 ...
-> cmake --build --preset conan-debug --verbose
+$ cmake --build --preset conan-debug --verbose
 ...
-> source build/Debug/generators/deactivate_conanbuildenv-debug-avr.sh
+$ source build/Debug/generators/deactivate_conanbuildenv-debug-avr.sh
 Restoring environment
 ~~~~
 
 ~~~~
-> file build/Debug/blink.elf
+$ file build/Debug/blink.elf
 build/Debug/blink.elf: ELF 32-bit LSB executable, Atmel AVR 8-bit, version 1 (SYSV), statically linked, with debug_info, not stripped
 ~~~~
 

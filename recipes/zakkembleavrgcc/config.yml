@@ -1,0 +1,21 @@
+versions:
+  "15.2.0":
+    folder: all
+  "15.1.0":
+    folder: all
+  "14.1.0":
+    folder: all
+  "13.2.0":
+    folder: all
+  "12.1.0":
+    folder: all
+  "11.1.0":
+    folder: all
+  "10.1.0":
+    folder: all
+  "9.2.0":
+    folder: all
+  "8.3.0":
+    folder: all
+  "8.1.0":
+    folder: all

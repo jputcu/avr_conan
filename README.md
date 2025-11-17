@@ -11,14 +11,23 @@ This repository is origanized to allow it to be used as a local conan index.
 $ git clone https://github.com/jputcu/avr_conan.git
 $ conan remote add avr_center ./avr_conan
 $ conan search "*" -r avr_center
-Found 4 pkg/version recipes matching * in avr_center
+Found 13 pkg/version recipes matching * in avr_center
 avr_center
   avr-libstdcpp
     avr-libstdcpp/1.0.1
   microchipavrgcc
     microchipavrgcc/3.7.0
+    microchipavrgcc/4.0.0
   zakkembleavrgcc
+    zakkembleavrgcc/8.1.0
+    zakkembleavrgcc/8.3.0
+    zakkembleavrgcc/9.2.0
+    zakkembleavrgcc/10.1.0
+    zakkembleavrgcc/11.1.0
+    zakkembleavrgcc/12.1.0
     zakkembleavrgcc/13.2.0
+    zakkembleavrgcc/14.1.0
+    zakkembleavrgcc/15.1.0
     zakkembleavrgcc/15.2.0
 ~~~~
 

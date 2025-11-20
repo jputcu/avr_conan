@@ -7,6 +7,7 @@ from conan.tools.layout import basic_layout
 
 class ZakKembleAvrGccConan(ConanFile):
     name = "zakkembleavrgcc"
+    homepage = "https://github.com/ZakKemble/avr-gcc-build"
     settings = "os", "arch"
     package_type = "application"
 

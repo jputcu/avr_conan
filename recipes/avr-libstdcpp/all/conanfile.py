@@ -6,6 +6,7 @@ from conan.tools.files import get, copy
 
 class ZakKembleAvrGccConan(ConanFile):
     name = "avr-libstdcpp"
+    homepage = "https://github.com/modm-io/avr-libstdcpp"
     version = "1.0.1"
     package_type = "header-library"
     exports_sources = "include/*"

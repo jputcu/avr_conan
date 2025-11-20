@@ -9,16 +9,19 @@ class ZakKembleAvrGccConan(ConanFile):
     name = "zakkembleavrgcc"
     settings = "os", "arch"
     package_type = "application"
-    no_copy_source = True
+
+    def source(self):
+        pass
 
     def build(self):
-        get(self, self.conan_data["sources"][self.version][str(self.settings.os).lower()]['url'], strip_root=True)
+        pass
 
     def layout(self):
         basic_layout(self)
 
     def package(self):
-        copy(self, "*", self.build_folder, self.package_folder)
+        url = self.conan_data["sources"][self.version][str(self.settings.os).lower()]['url']
+        get(self, url, strip_root=True, destination=self.package_folder)
 
     def package_info(self):
         suffix = ".exe" if self.settings.os == "Windows" else ""

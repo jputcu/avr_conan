@@ -85,6 +85,16 @@ $ file build/Debug/blink.elf
 build/Debug/blink.elf: ELF 32-bit LSB executable, Atmel AVR 8-bit, version 1 (SYSV), statically linked, with debug_info, not stripped
 ~~~~
 
+Run correct gdb
+---------------
+Since conan-2.23 we can easily call the correct gdb:
+~~~~
+$ conan run "avr-gdb --version" -pr ../conan/profiles/arduino_uno
+Installing and building dependencies, this might take a while...
+GNU gdb (AVR_8_bit_GNU_Toolchain_3.7.0_1796) 7.8
+...
+~~~~
+
 Potential
 =========
 

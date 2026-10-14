@@ -2,19 +2,26 @@ sources:
   "4.0.0":
     windows:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-4.0.0.52-win32.any.x86_64.zip"
+      sha256: "ccc9712ca20edc713dcf101013f80ba245b418ebfb02fc98e9f44f7733fe086a"
     linux:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-4.0.0.52-linux.any.x86_64.tar.gz"
+      sha256: "cc8682bb15f26428597499bf6e120832624a25b1062034a49fe0c77e4731cd33"
     freebsd:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-4.0.0.52-linux.any.x86_64.tar.gz"
+      sha256: "cc8682bb15f26428597499bf6e120832624a25b1062034a49fe0c77e4731cd33"
     macos:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-4.0.0.52-darwin.any.universal.tar.gz"
+      sha256: "e6db3e9712ff85778384c2622859d737d23455e79e3362e8616a8ae836c772c1"
   "3.7.0":
     windows:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-3.7.0.1796-win32.any.x86_64.zip"
       sha256: "4aba6af3334ddf10718a53a1a09c22ddebdd7741fdbad982104b14a1bb11553f"
     linux:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-3.7.0.1796-linux.any.x86_64.tar.gz"
+      sha256: "a541771cfc167e13a3206037625e15e369c562c289504edca9c7b76743974096"
     freebsd:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-3.7.0.1796-linux.any.x86_64.tar.gz"
+      sha256: "a541771cfc167e13a3206037625e15e369c562c289504edca9c7b76743974096"
     macos:
       url: "https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-osx-3.7.0.518-darwin.any.x86_64.tar.gz"
+      sha256: "378b210cc82dc06599b5a45dede0ed188a9e87f2de045f12cf3547554edd6ec8"

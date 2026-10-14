@@ -1,51 +1,78 @@
 sources:
+  "16.1.0":
+    windows:
+      url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v16.1.0-1/avr-gcc-16.1.0-x64-windows.zip"
+      sha256: "de4aad501ee42b63d5d262e45470924cd2654f6bc437f0299875efa6b8d8d0fe"
+    linux:
+      url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v16.1.0-1/avr-gcc-16.1.0-x64-linux.tar.bz2"
+      sha256: "8621ecc6514df50202b58b23b0f8f72f0e535ec35ee40426194e9a15c57692f6"
   "15.2.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v15.2.0-1/avr-gcc-15.2.0-x64-windows.zip"
+      sha256: "3bcfdbdbff6e3576ef0bef9e119b16f7012657d30f002d6d9d4848a7efd4f8b7"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v15.2.0-1/avr-gcc-15.2.0-x64-linux.tar.bz2"
+      sha256: "d90765e6d975950afa235aa998122f97aae8b00504399068b6c9d0bf4994b0fe"
   "15.1.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v15.1.0-1/avr-gcc-15.1.0-x64-windows.zip"
+      sha256: "ae931232ee4c8478476c91d75cf1fec49d68c7bd0ff0b03b20be98f60812c7d8"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v15.1.0-1/avr-gcc-15.1.0-x64-linux.tar.bz2"
+      sha256: "afedbf3643ca8f880b96ef9334511ce4ec3606ff3227744bc323565039a58203"
   "14.1.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v14.1.0-1/avr-gcc-14.1.0-x64-windows.zip"
+      sha256: "d0efbf289004b2d700ae039aa0b592d7d34a9e797e8fe8aa1fef249e997bbae7"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v14.1.0-1/avr-gcc-14.1.0-x64-linux.tar.bz2"
+      sha256: "4e9c6edf520765cdefa2d9af3304681296de24c3e095750e3be5504c12d3b224"
   "13.2.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v13.2.0-1/avr-gcc-13.2.0-x64-windows.zip"
+      sha256: "e58964cee908a01c85855a4cc6db331d06a87b4451c32db2281e92268ba0f107"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v13.2.0-1/avr-gcc-13.2.0-x64-linux.tar.bz2"
+      sha256: "79a3855a4bc36ffb1f7a4423e4cff7b9c18c7c96a1c90c7107b8bdaa70c28507"
   "12.1.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v12.1.0-1/avr-gcc-12.1.0-x64-windows.zip"
+      sha256: "e921a964fdeaedbe963352d0f26c6520a0a3eb8effc6ff232f3824b06c4ea0e2"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v12.1.0-1/avr-gcc-12.1.0-x64-linux.tar.bz2"
+      sha256: "feb034f4b85237032da8bac1f03765af5ebc4a8939b69bed57ff31bc482ca1a6"
   "11.1.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v11.1.0-1/avr-gcc-11.1.0-x64-windows.zip"
+      sha256: "e11ec78125a11242cc45169d96bbff9f35b4b7b916711ff4fad64c62379a71f7"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v11.1.0-1/avr-gcc-11.1.0-x64-linux.tar.bz2"
+      sha256: "9ebf16ab4e9c52c0b21d15df6bd97080cc4d1f5c0327c5b5b69955f3ee1bfd61"
   "10.1.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v10.1.0-1/avr-gcc-10.1.0-x64-windows.zip"
+      sha256: "1b9aa62207bb3cb9ac9edb7d6a77b1b0ea834a649e8159bc3ed86e1bc2129464"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v10.1.0-1/avr-gcc-10.1.0-x64-linux.tar.bz2"
+      sha256: "b1a84a62dccbf2141993f0c6a130863180ac27516fb3af45de30879c8cfd456f"
   "9.2.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v9.2.0-1/avr-gcc-9.2.0-x64-mingw.zip"
+      sha256: "0cb920622c6960a2a5964f93582c77ec061a3a7248a08161ba3cfb7b3095e9b9"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v9.2.0-1/avr-gcc-9.2.0-x64-linux.tar.bz2"
+      sha256: "d32e14e5dcdd812bec4f1fb2c96481d6138cc4ba4998053a3eb20cbde24f32d9"
   "8.3.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.3.0-1/avr-gcc-8.3.0-x64-mingw.zip"
+      sha256: "2d8398d4c1e5c1912efb888c0ae15a1c6b66ba320d460f4b7f8abd8436fe8126"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.3.0-1/avr-gcc-8.3.0-x64-linux.tar.bz2"
+      sha256: "22aed0041ba93cba3aea76dcdfb388608e1ce2d701f50119acc79c27a2a58451"
   "8.1.0":
     windows:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.1.0-1/avr-gcc-8.1.0-x64-mingw.zip"
+      sha256: "10880435d34823e35dd73d82089228563a85c1fb5269511d4f58ce408dbcc00f"
     linux:
       url: "https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.1.0-1/avr-gcc-8.1.0-x64-linux.tar.bz2"
+      sha256: "72ae3d40ee938aa0f3671bc48be98d572991d2c3d384341de77acff47572ea66"

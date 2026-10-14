@@ -21,8 +21,9 @@ class ZakKembleAvrGccConan(ConanFile):
         basic_layout(self)
 
     def package(self):
-        url = self.conan_data["sources"][self.version][str(self.settings.os).lower()]['url']
-        get(self, url, strip_root=True, destination=self.package_folder)
+        # url and sha256: a download that changed upstream fails instead of slipping in
+        get(self, **self.conan_data["sources"][self.version][str(self.settings.os).lower()],
+            strip_root=True, destination=self.package_folder)
 
     def package_info(self):
         suffix = ".exe" if self.settings.os == "Windows" else ""

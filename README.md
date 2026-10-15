@@ -36,11 +36,11 @@ The correct packages will be installed as dependency by the profile.
 
 ### Compile GNU C++ cross compiler from source
 
+`ctngavrgcc` builds avr-gcc with a freestanding libstdc++ through crosstool-ng (Linux
+only, about an hour). The component versions are in `recipes/ctngavrgcc/all/defconfigs`.
+
 ~~~~
-$ cd toolchain/freestanding
-$ conan create .
-...
-$ cd ../..
+$ conan create recipes/ctngavrgcc/all --version 16.2.0 --build-require
 ~~~~
 
 Provide the conan AVR settings

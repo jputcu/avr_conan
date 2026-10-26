@@ -1,0 +1,4 @@
+sources:
+  "11.3.1":
+    url: "https://github.com/FreeRTOS/FreeRTOS-Kernel/releases/download/V11.3.1/FreeRTOS-KernelV11.3.1.zip"
+    sha256: "0ce48d03f9f45ebe3d3090731a5cf54a245083aadef5fa33ecad43a07d35193a"
